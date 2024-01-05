@@ -33,7 +33,6 @@ public class SecurityConfig {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
 
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setUserDetailsService(this.customUserDetailService);
         daoAuthenticationProvider.setUserDetailsService(userDetailsService());
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
