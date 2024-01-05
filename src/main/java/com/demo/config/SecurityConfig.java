@@ -1,12 +1,13 @@
 package com.demo.config;
 
-import com.demo.service.CustomUserDetailService;
+import com.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -14,8 +15,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+
+
     @Autowired
-    private CustomUserDetailService customUserDetailService;
+    private UserRepository repository;
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return username -> repository.findByUsername(username);
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -25,7 +33,8 @@ public class SecurityConfig {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
 
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(this.customUserDetailService);
+//        daoAuthenticationProvider.setUserDetailsService(this.customUserDetailService);
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
 
@@ -59,7 +68,7 @@ public class SecurityConfig {
 //                .hasRole("ROLE_ADMIN")
 //                .requestMatchers("api/v1/greetings/hello")
 //                .permitAll()
-                .requestMatchers("/admin/**")
+                .requestMatchers("/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

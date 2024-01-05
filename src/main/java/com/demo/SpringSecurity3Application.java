@@ -14,8 +14,8 @@ public class SpringSecurity3Application implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringSecurity3Application.class, args);
@@ -31,11 +31,11 @@ public class SpringSecurity3Application implements CommandLineRunner {
 //        user.setPassword(this.bCryptPasswordEncoder.encode("admin"));
 //        user.setRole("ROLE_ADMIN");
 //        this.userRepository.save(user);
-//
+
 //        User user1 = new User();
 //        user1.setEmail("p@gmail.com");
-//        user1.setUserName("user");
-//        user1.setRole("ROLE_USER");
+//        user1.setUsername("user");
+//        user1.setRole("USER");
 //        user1.setPassword(this.bCryptPasswordEncoder.encode("user"));
 //
 //
